@@ -89,6 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <li><Link href="/privacy">Privacy</Link></li>
                 <li><Link href="/terms">Terms</Link></li>
                 <li><Link href="/sitemap">Sitemap</Link></li>
+                <li><Link href="/sitemap.xml">Sitemap XML</Link></li>
                 <li><Link href="/llms.txt">LLMs.txt</Link></li>
               </ul>
             </div>
