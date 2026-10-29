@@ -416,6 +416,63 @@ export function ClockCountdown({ q }: { q: QuarterHour }) {
   );
 }
 
+export function PersonalDateCountdown({ mode, noun }: { mode: "birthday" | "exact"; noun: string }) {
+  const [date, setDate] = useState("");
+  const [share, setShare] = useState("");
+  const now = useNow();
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get("date");
+    if (q && parseDateOnly(q)) setDate(q);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const picked = date ? parseDateOnly(date) : null;
+  let target: Date | null = null;
+  let status: "none" | "past" | "today" | "future" = "none";
+  if (picked && now !== null) {
+    const today = new Date(new Date(now).getFullYear(), new Date(now).getMonth(), new Date(now).getDate());
+    if (mode === "birthday") {
+      const mk = (y: number) => {
+        if (picked.getMonth() === 1 && picked.getDate() === 29 && !isLeapYear(y)) return new Date(y, 1, 28);
+        return new Date(y, picked.getMonth(), picked.getDate());
+      };
+      let cand = mk(today.getFullYear());
+      if (cand.getTime() < today.getTime()) cand = mk(today.getFullYear() + 1);
+      target = cand;
+      status = cand.getTime() === today.getTime() ? "today" : "future";
+    } else {
+      const cand = new Date(picked.getFullYear(), picked.getMonth(), picked.getDate());
+      if (cand.getTime() < today.getTime()) status = "past";
+      else if (cand.getTime() === today.getTime()) { target = cand; status = "today"; }
+      else { target = cand; status = "future"; }
+    }
+  }
+  const copyLink = async () => {
+    if (!date) return;
+    const url = `${window.location.origin}${window.location.pathname}?date=${encodeURIComponent(date)}`;
+    try { await navigator.clipboard.writeText(url); setShare("Link copied: " + url); }
+    catch { setShare(url); }
+  };
+  return (
+    <div className="toolbox">
+      <div className="row"><div><label htmlFor="pd-date">Choose your {noun}</label><input id="pd-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} /></div></div>
+      <div style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <button className="secondary" onClick={copyLink} disabled={!date}>Copy shareable link</button>
+      </div>
+      {!picked && <p className="muted">Pick a date above to start the countdown. Nothing is saved or published — the date stays in your browser and in the link you choose to share.</p>}
+      {picked && status === "past" && <p className="result">That date is in the past, so there is nothing left to count to. Pick a future date to see a countdown.</p>}
+      {picked && status === "today" && <p className="result">That date is today.</p>}
+      {picked && status === "future" && target !== null && now !== null && (<>
+        <Digits ms={target.getTime() - now} />
+        <p className="result">Next occurrence: {fmtDate(target)}</p>
+      </>)}
+      {share && <p className="muted" style={{ wordBreak: "break-all" }}>{share}</p>}
+      <p className="muted">{mode === "birthday"
+        ? "Rule: this counts to the next occurrence of the same month and day. A 29 February birthday is observed on 28 February in non-leap years, matching the age calculator."
+        : "Rule: this counts to the start of the exact date you picked (midnight at the start of that day). If that date has passed, it does not roll forward to next year."}</p>
+    </div>
+  );
+}
+
 export function HeroCountdown() {
   const [preset, setPreset] = useState<"today" | "newyear" | "hour">("today");
   const now = useNow();

@@ -73,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div>
               <h4>Events</h4>
               <ul>
+                <li><Link href="/events">Events</Link></li>
                 <li><Link href="/countdown">All Event Countdowns</Link></li>
                 <li><Link href="/countdown/new-year">New Year</Link></li>
                 <li><Link href="/countdown/christmas">Christmas</Link></li>

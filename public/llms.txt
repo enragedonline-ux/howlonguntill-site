@@ -45,3 +45,22 @@
 - [month-end-overflow](https://www.howlonguntill.site/blog/month-end-overflow)
 - [inclusive-exclusive-days](https://www.howlonguntill.site/blog/inclusive-exclusive-days)
 - [background-tab-timers](https://www.howlonguntill.site/blog/background-tab-timers)
+
+## Events
+
+- [events](https://www.howlonguntill.site/events)
+- [how-long-until-new-year](https://www.howlonguntill.site/events/how-long-until-new-year)
+- [how-long-until-christmas](https://www.howlonguntill.site/events/how-long-until-christmas)
+- [how-long-until-my-birthday](https://www.howlonguntill.site/events/how-long-until-my-birthday)
+- [how-long-until-weekend](https://www.howlonguntill.site/events/how-long-until-weekend)
+- [how-long-until-friday](https://www.howlonguntill.site/events/how-long-until-friday)
+- [how-long-until-midnight](https://www.howlonguntill.site/events/how-long-until-midnight)
+- [how-long-until-wedding](https://www.howlonguntill.site/events/how-long-until-wedding)
+- [how-long-until-vacation](https://www.howlonguntill.site/events/how-long-until-vacation)
+- [how-long-until-thanksgiving](https://www.howlonguntill.site/events/how-long-until-thanksgiving)
+- [how-long-until-independence-day](https://www.howlonguntill.site/events/how-long-until-independence-day)
+- [how-long-until-easter](https://www.howlonguntill.site/events/how-long-until-easter)
+- [how-long-until-halloween](https://www.howlonguntill.site/events/how-long-until-halloween)
+- [how-long-until-valentines-day](https://www.howlonguntill.site/events/how-long-until-valentines-day)
+
+Clock-time pages: 1,440 minute pages at /how-long-until/<time>, one for every minute of the day, listed in sitemap.xml.

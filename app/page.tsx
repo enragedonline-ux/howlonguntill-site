@@ -49,7 +49,7 @@ export default function Home() {
             <p>Browse every recurring event countdown in one place.</p>
           </div>
         </div>
-        <p><Link href="/how-long-until">How Long Until</Link> also has a page for every quarter-hour clock time, from <Link href="/how-long-until/12-00-am">12:00 AM</Link> to <Link href="/how-long-until/11-45-pm">11:45 PM</Link>.</p>
+        <p><Link href="/how-long-until">How Long Until</Link> also has a page for every minute of the day — 1,440 minute pages — from <Link href="/how-long-until/12-00-am">12:00 AM</Link> to <Link href="/how-long-until/11-59-pm">11:59 PM</Link>.</p>
       </section>
 
       <section className="block">

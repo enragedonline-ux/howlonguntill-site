@@ -94,7 +94,23 @@ export function thanksgiving(year: number): Date {
   return new Date(year, 10, firstThu + 21);
 }
 
+function nextWeekdayMidnight(now: Date, weekday: number): Date {
+  // Next occurrence of weekday at 00:00. If today is that weekday and
+  // 00:00 has already passed, the next occurrence is a week later.
+  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+  const ahead = (weekday - start.getDay() + 7) % 7;
+  const cand = new Date(start.getTime() + ahead * 86400000);
+  if (cand.getTime() < now.getTime()) cand.setDate(cand.getDate() + 7);
+  return cand;
+}
+
 export function nextEventDate(slug: string, now: Date): Date {
+  if (slug === "weekend") return nextWeekdayMidnight(now, 6);
+  if (slug === "friday") return nextWeekdayMidnight(now, 5);
+  if (slug === "midnight") {
+    // Tonight's midnight: 00:00 at the start of tomorrow.
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
+  }
   const y = now.getFullYear();
   const fixed: Record<string, [number, number]> = {
     "new-year": [0, 1], christmas: [11, 25], halloween: [9, 31],
@@ -129,6 +145,33 @@ export function quarterHours(): QuarterHour[] {
 
 export function parseQuarterSlug(slug: string): QuarterHour | null {
   return quarterHours().find((q) => q.slug === slug) ?? null;
+}
+
+export type MinuteTime = QuarterHour;
+
+export function allMinutes(): MinuteTime[] {
+  const out: MinuteTime[] = [];
+  for (let h = 0; h < 24; h++) {
+    for (let min = 0; min < 60; min++) {
+      const h12 = h % 12 === 0 ? 12 : h % 12;
+      const ampm = h < 12 ? "am" : "pm";
+      out.push({ slug: `${h12}-${pad(min)}-${ampm}`, label: `${h12}:${pad(min)} ${ampm.toUpperCase()}`, hour24: h, minute: min });
+    }
+  }
+  return out;
+}
+
+export function parseMinuteSlug(slug: string): MinuteTime | null {
+  const m = /^(\d{1,2})-(\d{2})-(am|pm)$/.exec(slug);
+  if (!m) return null;
+  const h12 = Number(m[1]);
+  const minute = Number(m[2]);
+  const ampm = m[3];
+  if (h12 < 1 || h12 > 12 || minute < 0 || minute > 59) return null;
+  // Reject non-canonical forms such as a leading zero on the hour.
+  if (slug !== `${h12}-${pad(minute)}-${ampm}`) return null;
+  const hour24 = ampm === "am" ? h12 % 12 : (h12 % 12) + 12;
+  return { slug, label: `${h12}:${pad(minute)} ${ampm.toUpperCase()}`, hour24, minute };
 }
 
 export function nextClockTime(q: QuarterHour, now: Date): Date {
