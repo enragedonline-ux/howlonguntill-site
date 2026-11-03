@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description: "Free countdown timers, stopwatch, online timer and date calculators that run in your browser. No account needed.",
   alternates: { canonical: `${SITE_URL}/` },
   icons: { icon: "/favicon.svg" },
+  verification: { google: "swxYC6T6wO9HlRW-mc8fXjIKyrVOwmahET6KiFdgdF4" },
   openGraph: {
     title: "HowLongUntill — Timers, Countdowns & Date Calculators",
     description: "Free countdown timers, stopwatch, online timer and date calculators that run in your browser. No account needed.",
